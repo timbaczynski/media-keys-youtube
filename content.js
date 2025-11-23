@@ -45,19 +45,31 @@ function initMediaSession() {
 }
 
 function space(element) { // Space
-  let evt = new KeyboardEvent("keydown", {
+  let evtDown = new KeyboardEvent("keydown", {
     key: " ",
     keyCode: 32
   });
-  document.dispatchEvent(evt);
+  let evtUp = new KeyboardEvent("keyup", {
+    key: " ",
+    keyCode: 32
+  });
+
+  document.dispatchEvent(evtDown);
+  document.dispatchEvent(evtUp);
 }
 
 function forward(element) { // ArrowRight
-  let evt = new KeyboardEvent("keydown", {
+  let evtDown = new KeyboardEvent("keydown", {
     key: "ArrowRight",
     keyCode: 39
   });
-  document.dispatchEvent(evt);
+  let evtUp = new KeyboardEvent("keyup", {
+    key: "ArrowRight",
+    keyCode: 39
+  });
+
+  document.dispatchEvent(evtDown);
+  document.dispatchEvent(evtUp);
 }
 
 // function forward(element) { // 5 seconds forward
@@ -66,11 +78,17 @@ function forward(element) { // ArrowRight
 // }
   
 function backward(element) { // ArrowLeft
-  let evt = new KeyboardEvent("keydown", {
+  let evtDown = new KeyboardEvent("keydown", {
     key: "ArrowLeft",
     keyCode: 37
   });
-  document.dispatchEvent(evt);
+  let evtUp = new KeyboardEvent("keyup", {
+    key: "ArrowLeft",
+    keyCode: 37
+  });
+
+  document.dispatchEvent(evtDown);
+  document.dispatchEvent(evtUp);
 }
 
 // function backward(element) { // 5 seconds backward
