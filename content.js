@@ -9,7 +9,7 @@ function initIntervals() {
   }, timeoutDelay);
 }
 
-function initMediaSession() {  
+function initMediaSession() {
 
   navigator.mediaSession.setActionHandler('play', function() {space(document)});
 
@@ -21,7 +21,7 @@ function initMediaSession() {
       if (new Date().getTime() - 48 > nexttime) { // if a single click occurs
         setTimeout(function(){
           if (new Date().getTime() - 48 > nexttime) {
-            forward(document); 
+            forward(document);
           }
         }, 50);
       } else { // if there is a long press
@@ -76,7 +76,7 @@ function forward(element) { // ArrowRight
 //   element.querySelectorAll('video').forEach(function(item) {item.currentTime += 5; });
 //   element.querySelectorAll('audio').forEach(function(item) {item.currentTime += 5; });
 // }
-  
+
 function backward(element) { // ArrowLeft
   let evtDown = new KeyboardEvent("keydown", {
     key: "ArrowLeft",
