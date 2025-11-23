@@ -72,11 +72,6 @@ function forward(element) { // ArrowRight
   document.dispatchEvent(evtUp);
 }
 
-// function forward(element) { // 5 seconds forward
-//   element.querySelectorAll('video').forEach(function(item) {item.currentTime += 5; });
-//   element.querySelectorAll('audio').forEach(function(item) {item.currentTime += 5; });
-// }
-
 function backward(element) { // ArrowLeft
   let evtDown = new KeyboardEvent("keydown", {
     key: "ArrowLeft",
@@ -90,11 +85,6 @@ function backward(element) { // ArrowLeft
   document.dispatchEvent(evtDown);
   document.dispatchEvent(evtUp);
 }
-
-// function backward(element) { // 5 seconds backward
-//   element.querySelectorAll('video').forEach(function(item) {item.currentTime -= 5; });
-//   element.querySelectorAll('audio').forEach(function(item) {item.currentTime -= 5; });
-// }
 
 function nextMedia( element ) {
   element.querySelectorAll('iframe').forEach(function(item) {
