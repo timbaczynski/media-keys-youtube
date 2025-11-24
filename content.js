@@ -1,19 +1,6 @@
-function initIntervals() {
-  var firstDelay = 300 // first interval between executions
-  var timeoutDelay = 10000 // time after which the first interval turns off and the second turns on
-  var secondDelay = 10000 // second interval between executions
-  let firstInterval = setInterval(initMediaSession, firstDelay);
-  setTimeout(function(){
-    clearInterval(firstInterval);
-    setInterval(initMediaSession, secondDelay);
-  }, timeoutDelay);
-}
-
 function initMediaSession() {
-
-  navigator.mediaSession.setActionHandler('play', function() {space(document)});
-
-  navigator.mediaSession.setActionHandler('pause', function() {space(document)});
+  navigator.mediaSession.setActionHandler('play', space);
+  navigator.mediaSession.setActionHandler('pause', space);
 
   var nexttime = 0;
 
@@ -21,7 +8,7 @@ function initMediaSession() {
       if (new Date().getTime() - 48 > nexttime) { // if a single click occurs
         setTimeout(function(){
           if (new Date().getTime() - 48 > nexttime) {
-            forward(document);
+            forward();
           }
         }, 50);
       } else { // if there is a long press
@@ -34,7 +21,7 @@ function initMediaSession() {
       if (new Date().getTime() - 48 > nexttime) {// if a single click occurs
         setTimeout(function(){
           if (new Date().getTime() - 48 > nexttime) {
-          backward(document);
+          backward();
           }
         }, 50);
       } else { // if there is a long press
@@ -44,57 +31,25 @@ function initMediaSession() {
   });
 }
 
-function space(element) { // Space
-  let evtDown = new KeyboardEvent("keydown", {
-    key: " ",
-    keyCode: 32
-  });
-  let evtUp = new KeyboardEvent("keyup", {
-    key: " ",
-    keyCode: 32
-  });
-
-  document.dispatchEvent(evtDown);
-  document.dispatchEvent(evtUp);
+function simulateShortPress(key, keyCode) {
+  const eventOptions = { key, keyCode };
+  
+  document.dispatchEvent(new KeyboardEvent("keydown", eventOptions));
+  document.dispatchEvent(new KeyboardEvent("keyup", eventOptions));
 }
 
-function forward(element) { // ArrowRight
-  let evtDown = new KeyboardEvent("keydown", {
-    key: "ArrowRight",
-    keyCode: 39
-  });
-  let evtUp = new KeyboardEvent("keyup", {
-    key: "ArrowRight",
-    keyCode: 39
-  });
-
-  document.dispatchEvent(evtDown);
-  document.dispatchEvent(evtUp);
+function space() {
+  simulateShortPress(" ", 32);
 }
 
-// function forward(element) { // 5 seconds forward
-//   element.querySelectorAll('video').forEach(function(item) {item.currentTime += 5; });
-//   element.querySelectorAll('audio').forEach(function(item) {item.currentTime += 5; });
-// }
-
-function backward(element) { // ArrowLeft
-  let evtDown = new KeyboardEvent("keydown", {
-    key: "ArrowLeft",
-    keyCode: 37
-  });
-  let evtUp = new KeyboardEvent("keyup", {
-    key: "ArrowLeft",
-    keyCode: 37
-  });
-
-  document.dispatchEvent(evtDown);
-  document.dispatchEvent(evtUp);
+function forward() {
+  simulateShortPress("ArrowRight", 39);
+}
+  
+function backward() {
+  simulateShortPress("ArrowLeft", 37);
 }
 
-// function backward(element) { // 5 seconds backward
-//   element.querySelectorAll('video').forEach(function(item) {item.currentTime -= 5; });
-//   element.querySelectorAll('audio').forEach(function(item) {item.currentTime -= 5; });
-// }
 
 function nextMedia( element ) {
   element.querySelectorAll('iframe').forEach(function(item) {
@@ -126,6 +81,17 @@ function prevMedia( element ) {
   }
 };
 
-window.onload = function() {
-  initIntervals();
+function runInitialization() {
+  const FAST_INTERVAL_MS = 300;
+  const SLOW_INTERVAL_MS = 10000;
+  const switchToSlowTimeout = 10000;
+
+  const fastIntervalId = setInterval(initMediaSession, FAST_INTERVAL_MS);
+
+  setTimeout(() => {
+    clearInterval(fastIntervalId);
+    setInterval(initMediaSession, SLOW_INTERVAL_MS);
+  }, switchToSlowTimeout);
 }
+
+runInitialization();
