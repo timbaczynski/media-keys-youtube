@@ -10,10 +10,8 @@ function initIntervals() {
 }
 
 function initMediaSession() {
-
-  navigator.mediaSession.setActionHandler('play', function() {space(document)});
-
-  navigator.mediaSession.setActionHandler('pause', function() {space(document)});
+  navigator.mediaSession.setActionHandler('play', space);
+  navigator.mediaSession.setActionHandler('pause', space);
 
   var nexttime = 0;
 
@@ -21,7 +19,7 @@ function initMediaSession() {
       if (new Date().getTime() - 48 > nexttime) { // if a single click occurs
         setTimeout(function(){
           if (new Date().getTime() - 48 > nexttime) {
-            forward(document);
+            forward();
           }
         }, 50);
       } else { // if there is a long press
@@ -34,7 +32,7 @@ function initMediaSession() {
       if (new Date().getTime() - 48 > nexttime) {// if a single click occurs
         setTimeout(function(){
           if (new Date().getTime() - 48 > nexttime) {
-          backward(document);
+          backward();
           }
         }, 50);
       } else { // if there is a long press
@@ -44,47 +42,25 @@ function initMediaSession() {
   });
 }
 
-function space(element) { // Space
-  let evtDown = new KeyboardEvent("keydown", {
-    key: " ",
-    keyCode: 32
-  });
-  let evtUp = new KeyboardEvent("keyup", {
-    key: " ",
-    keyCode: 32
-  });
-
-  document.dispatchEvent(evtDown);
-  document.dispatchEvent(evtUp);
+function simulateShortPress(key, keyCode) {
+  const eventOptions = { key, keyCode };
+  
+  document.dispatchEvent(new KeyboardEvent("keydown", eventOptions));
+  document.dispatchEvent(new KeyboardEvent("keyup", eventOptions));
 }
 
-function forward(element) { // ArrowRight
-  let evtDown = new KeyboardEvent("keydown", {
-    key: "ArrowRight",
-    keyCode: 39
-  });
-  let evtUp = new KeyboardEvent("keyup", {
-    key: "ArrowRight",
-    keyCode: 39
-  });
-
-  document.dispatchEvent(evtDown);
-  document.dispatchEvent(evtUp);
+function space() {
+  simulateShortPress(" ", 32);
 }
 
-function backward(element) { // ArrowLeft
-  let evtDown = new KeyboardEvent("keydown", {
-    key: "ArrowLeft",
-    keyCode: 37
-  });
-  let evtUp = new KeyboardEvent("keyup", {
-    key: "ArrowLeft",
-    keyCode: 37
-  });
-
-  document.dispatchEvent(evtDown);
-  document.dispatchEvent(evtUp);
+function forward() {
+  simulateShortPress("ArrowRight", 39);
 }
+  
+function backward() {
+  simulateShortPress("ArrowLeft", 37);
+}
+
 
 function nextMedia( element ) {
   element.querySelectorAll('iframe').forEach(function(item) {
