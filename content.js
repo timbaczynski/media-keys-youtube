@@ -1,14 +1,3 @@
-function initIntervals() {
-  var firstDelay = 300 // first interval between executions
-  var timeoutDelay = 10000 // time after which the first interval turns off and the second turns on
-  var secondDelay = 10000 // second interval between executions
-  let firstInterval = setInterval(initMediaSession, firstDelay);
-  setTimeout(function(){
-    clearInterval(firstInterval);
-    setInterval(initMediaSession, secondDelay);
-  }, timeoutDelay);
-}
-
 function initMediaSession() {
   navigator.mediaSession.setActionHandler('play', space);
   navigator.mediaSession.setActionHandler('pause', space);
@@ -92,6 +81,17 @@ function prevMedia( element ) {
   }
 };
 
-window.onload = function() {
-  initIntervals();
+function runInitialization() {
+  const FAST_INTERVAL_MS = 300;
+  const SLOW_INTERVAL_MS = 10000;
+  const switchToSlowTimeout = 10000;
+
+  const fastIntervalId = setInterval(initMediaSession, FAST_INTERVAL_MS);
+
+  setTimeout(() => {
+    clearInterval(fastIntervalId);
+    setInterval(initMediaSession, SLOW_INTERVAL_MS);
+  }, switchToSlowTimeout);
 }
+
+runInitialization();
